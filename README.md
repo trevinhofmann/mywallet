@@ -1,0 +1,4 @@
+mywallet
+========
+
+A Bitcoin wallet
