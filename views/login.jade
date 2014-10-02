@@ -1,0 +1,14 @@
+.container.very-padded
+  h1(class="text-center")
+    | My
+    span.holo Wallet
+  form
+    .form-group
+      input.form-control.spaced(type="text", placeholder="Enter your 12-word wallet passphrase", autofocus)
+      br
+      input#loginEnter.btn.btn-lg.btn-block.btn-primary(value='Enter wallet', type='button')
+      br
+      input#loginEnter.btn.btn-lg.btn-block.btn-success(value='I do not have a wallet', type='button')
+  if (locals.error)
+    .alert.alert-danger
+      | #{locals.error}
