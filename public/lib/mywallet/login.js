@@ -7,12 +7,49 @@ function handleLoginNew(){
 }
 
 function handleLoginGridClick(){
-  var square = this;
-  var normalColor = $(square).css('background-color');
-  $(square).css('background-color', '#0000ff');
+  var square = $(this);
+  flashSquare(square);
+}
+
+function flashSquare(square){
+  var normalColor = getNormalColor(square);
+  var selectedColor = getSelectedColor(square);
+  $(square).css('background-color', selectedColor);
   setTimeout(function(){ 
     $(square).css('background-color', normalColor);
-  }, 500);
+  }, 200);
+}
+
+function getNormalColor(square){
+  if (square.hasClass('color-0')){
+    return '#ff8888';
+  }
+  if (square.hasClass('color-1')){
+    return '#88ff88';
+  }
+  if (square.hasClass('color-2')){
+    return '#8888ff';
+  }
+  if (square.hasClass('color-3')){
+    return '#ffff88';
+  }
+  return '#000000';
+}
+
+function getSelectedColor(square){
+  if (square.hasClass('color-0')){
+    return '#dd0000';
+  }
+  if (square.hasClass('color-1')){
+    return '#00dd00';
+  }
+  if (square.hasClass('color-2')){
+    return '#0000dd';
+  }
+  if (square.hasClass('color-3')){
+    return '#dddd00';
+  }
+  return '#000000';
 }
 
 $('#loginEnter').on('click', handleLoginEnter);
