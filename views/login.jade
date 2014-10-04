@@ -4,11 +4,14 @@
     span.holo Wallet
   br
   br
-  .login-grid
+  h3.text-center Log in to your wallet:
+  .login-grid 
     - for (var row = 0; row <= 7; row ++){
       tr
         - for (var column = 0; column <= 7; column++){
-          div.login-cell(class="color-#{(2*(row%2)+column%2)} row-#{row} column-#{column}")
+          div.login-cell(class='color-#{(2*(row%2)+column%2)} row-#{row} column-#{column}', id='square-#{row*8+column}')
         - }
         .clear
     - }
+  br
+  button#new-wallet-button.btn.btn-success.btn-lg.btn-block(type='button') Create a new wallet

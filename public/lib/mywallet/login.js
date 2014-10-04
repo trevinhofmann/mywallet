@@ -1,23 +1,53 @@
-function handleLoginEnter(){
-  alert('You clicked the enter button!');
-}
+var bitcore = require('bitcore');
 
-function handleLoginNew(){
-  alert('You clicked the new wallet button!');
-}
+var currentlyTeaching = false;
+var currentProgress = 0;
+var totalProgress = 0;
+var currentTeachingProgress = 0;
+var loginSequence = [];
 
 function handleLoginGridClick(){
   var square = $(this);
-  flashSquare(square);
+  if (currentlyTeaching){
+    testLearningClick(square);
+  }
 }
 
-function flashSquare(square){
+function testLearningClick(square){
+  flashSquare(square, 150, function(){
+    if (parseInt(square.attr('id').substring(7)) == loginSequence[currentProgress]){
+      currentProgress ++;
+      if (currentProgress > totalProgress){
+        if (currentProgress >= loginSequence.length){
+          alert('You did it!');
+          return;
+        }
+        totalProgress ++;
+        currentProgress = 0;
+        currentTeachingProgress = 0;
+        currentlyTeaching = false;
+        setTimeout(teachSequence, 1000);
+      }
+    }
+    else{
+      alert('You failed. Starting over.');
+      currentlyTeaching = false;
+      totalProgress = 0;
+      currentProgress = 0;
+      currentTeachingProgress = 0;
+      teachSequence();
+    }
+  });
+}
+
+function flashSquare(square, duration, callback){
   var normalColor = getNormalColor(square);
   var selectedColor = getSelectedColor(square);
   $(square).css('background-color', selectedColor);
   setTimeout(function(){ 
     $(square).css('background-color', normalColor);
-  }, 200);
+    callback();
+  }, duration);
 }
 
 function getNormalColor(square){
@@ -52,8 +82,38 @@ function getSelectedColor(square){
   return '#000000';
 }
 
-$('#loginEnter').on('click', handleLoginEnter);
-$('#loginNew').on('click', handleLoginNew);
+function handleNewWalletClick(){
+  var randomBuffer = bitcore.SecureRandom.getRandomBuffer(8);
+  var randomHash = bitcore.util.sha256(randomBuffer);
+  loginSequence = [];
+  for (var i=0; i<= 9; i++){
+    loginSequence[i] = Math.floor(randomHash[i]/4);
+  }
+  alert('Your login sequence has been generated! Please follow along to learn it.');
+  console.log(loginSequence);
+  currentlyTeaching = false;
+  totalProgress = 0;
+  currentProgress = 0;
+  currentTeachingProgress = 0;
+  teachSequence();
+}
+
+function teachSequence(){
+  if (currentTeachingProgress > totalProgress){
+    currentlyTeaching = true;
+    return;
+  }
+  var square = $('#square-'+loginSequence[currentTeachingProgress]);
+  flashSquare(square, 700, function(){
+    setTimeout(function(){
+      currentTeachingProgress ++;
+      teachSequence();
+    }, 300);
+  });
+}
+
 $('.login-cell').on('click', handleLoginGridClick);
+
+$('#new-wallet-button').on('click', handleNewWalletClick);
 
 $('.login-cell').css({'height':$('.login-cell').width()+'px'});
