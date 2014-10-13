@@ -104,11 +104,11 @@ function teachSequence(){
     return;
   }
   var square = $('#square-'+loginSequence[currentTeachingProgress]);
-  flashSquare(square, 700, function(){
+  flashSquare(square, 400, function(){
     setTimeout(function(){
       currentTeachingProgress ++;
       teachSequence();
-    }, 300);
+    }, 200);
   });
 }
 
