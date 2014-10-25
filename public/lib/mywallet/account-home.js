@@ -42,8 +42,8 @@ function displayTransactions(){
     var confirmations = transactions[transaction].confirmations;
     var row = $('<tr></tr>');
     row.append('<td>'+label+'</td>');
-    row.append('<td>'+recipient+'</td>');
-    row.append('<td>'+txid+'</td>');
+    row.append('<td><a href="htp://mychain.io/address/'+recipient+'">'+recipient+'</a></td>');
+    row.append('<td><a href="http://mychain.io/tx/'+txid+'">'+txid+'</a></td>');
     row.append('<td>'+amount+'</td>');
     row.append('<td>'+confirmations+'</td>');
     $('#account-home-transactions-tbody').append(row);
