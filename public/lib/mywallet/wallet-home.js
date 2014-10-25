@@ -43,21 +43,24 @@ function handleWalletLogoutButtonClick(){
 function displayAccounts(){
   $('#wallet-home-accounts-tbody').empty();
   for (var account in accounts){
-    var name = accounts[account].name;
-    var description = accounts[account].description;
-    var signatures = accounts[account].signatures;
-    var balance = accounts[account].balance;
-    var row = $('<tr></tr>');
-    row.append($('<td></td>').append(function(){
-      return $('<button type="button" class="btn btn-primary">'+name+'</button>').click(function(){
+    $('#wallet-home-accounts-tbody').append(function(){
+      var name = accounts[account].name;
+      var description = accounts[account].description;
+      var signatures = accounts[account].signatures;
+      var balance = accounts[account].balance;
+      var callback = function(){
         switchToAccount(name);
         navigateTo('account-home');
-      });
-    }));
-    row.append('<td>'+description+'</td>');
-    row.append('<td>'+signatures+'</td>');
-    row.append('<td>'+balance+'</td>');
-    $('#wallet-home-accounts-tbody').append(row);
+      }
+      var row = $('<tr></tr>');
+      row.append($('<td></td>').append(function(){
+        return $('<button type="button" class="btn btn-primary">'+name+'</button>').click(callback);
+      }));
+      row.append('<td>'+description+'</td>');
+      row.append('<td>'+signatures+'</td>');
+      row.append('<td>'+balance+'</td>');
+      return row;
+    });
   }
 }
 
