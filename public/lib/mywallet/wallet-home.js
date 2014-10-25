@@ -1,15 +1,19 @@
 function handleWalletNewAccountButtonClick(){
-  popupPrompt('What type of account?',
+  popupPrompt('What type of account would you like to make?',
     [
-      'Yes, please!',
-      'No thanks!'
+      'Super Simple (1 key)',
+      'Simple Two-Factor (2 keys, we hold one)',
+      'Custom Multisignature (completely customizable!)'
     ],
     [
       function(){
-        alert('I should show you a tutorial now.');
+        alert('I should create a super simple account now.');
       },
       function(){
-        navigateTo('wallet-home');
+        alert('I should create a simple two-factor account now.');
+      },
+      function(){
+        alert('I should ask what type of multisignature account you want now.');
       }
     ]
   );
