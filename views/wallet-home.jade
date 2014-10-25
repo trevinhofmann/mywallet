@@ -2,14 +2,34 @@
   h1.text-center
     img(src='http://wallet.mychain.io/img/logo.png')
   br
-  p
-    | Your
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th Description
+        th Signatures (M-of-N)
+        th Balance (mBTC)
+    tbody#wallet-home-accounts-table
+      tr
+        td: button.btn.btn-primary(type='button') Daily Spending
+        td This is where I keep my day-to-day spendable funds.
+        td 2-of-2
+        td 314.15
+      tr
+        td: button.btn.btn-primary(type='button') Vacation Fund
+        td I'm going to Disney World!
+        td 2-of-3
+        td 4200.42
+      tr
+        td: button.btn.btn-primary(type='button') Cold Storage
+        td Saving for retirement.
+        td 4-of-5
+        td 25000.00
+  p.text-right
+    button#wallet-home-new-account-button.btn.btn-success(type='button') Create a new account
     br
-    | Accounts
     br
-    | Go
+    button#wallet-home-backup-wallet-button.btn.btn-primary(type='button') Backup your wallet
     br
-    | Here
-  button.btn.btn-success.btn-lg.btn-block#wallet-home-new-account-button(type='button') Create a new account
-  button.btn.btn-primary.btn-lg.btn-block#wallet-home-backup-wallet-button(type='button') Backup your wallet
-  button.btn.btn-danger.btn-lg.btn-block#wallet-home-logout-button(type='button') Log out
+    br
+    button#wallet-home-logout-button.btn.btn-danger(type='button') Log out
