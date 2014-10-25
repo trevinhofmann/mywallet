@@ -4,7 +4,7 @@ function popupPrompt(prompt, choices, callbacks){
   for (var choice in choices){
     $('#prompt-options').append(function(){
       var callback = callbacks[choice];
-      return $('<br><button id="promptChoice'+escape(choice)+'" type="button" class="btn btn-primary btn-lg btn-block">'+choices[choice]+'</button>').click(function(){
+      return $('<br><button type="button" class="btn btn-primary btn-lg btn-block">'+choices[choice]+'</button>').click(function(){
         callback();
         closePrompt();
       });
