@@ -50,4 +50,31 @@ function displayTransactions(){
   }
 }
 
+function handleAccountSendPaymentButtonClick(){
+  alert('I should ask you for payment information now.');
+}
+
+function handleAccountGetPaidButtonClick(){
+  alert('I should let you create a new address and payment request now.');
+}
+
+function handleAccountListAddressesButtonClick(){
+  alert('I should show you your addresses now.');
+}
+
+function handleAccountReturnButtonClick(){
+  navigateTo('wallet-home');
+}
+
+function handleAccountLogoutButtonClick(){
+  handleWalletLogoutButtonClick();
+}
+
+
+$('#account-home-send-payment-button').on('click', handleAccountSendPaymentButtonClick);
+$('#account-home-get-paid-button').on('click', handleAccountGetPaidButtonClick);
+$('#account-home-list-addresses-button').on('click', handleAccountListAddressesButtonClick);
+$('#account-home-return-button').on('click', handleAccountReturnButtonClick);
+$('#account-home-logout-button').on('click', handleAccountLogoutButtonClick);
+
 displayTransactions();
