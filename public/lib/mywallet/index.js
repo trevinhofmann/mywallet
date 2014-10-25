@@ -23,7 +23,7 @@ function handleIndexLoginButtonClick(){
     ],
     [
       function(){
-        alert('I should give you the login grid now.');
+        navigateTo('login-grid');
       },
       function(){
         alert('I should ask you for your mnemonic passphrase now.');
