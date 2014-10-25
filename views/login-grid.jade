@@ -1,9 +1,4 @@
-.container.very-padded
-  h1.text-center
-    img(src='http://wallet.mychain.io/img/logo.png')
-  br
-  br
-  h3.text-center Log in to your wallet:
+.container.very-padded#login-grid
   .login-grid 
     - for (var row = 0; row <= 7; row ++){
       tr
@@ -12,5 +7,3 @@
         - }
         .clear
     - }
-  br
-  button#new-wallet-button.btn.btn-success.btn-lg.btn-block(type='button') Create a new wallet

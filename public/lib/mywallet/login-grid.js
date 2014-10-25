@@ -1,5 +1,3 @@
-var bitcore = require('bitcore');
-
 var currentlyTeaching = false;
 var currentProgress = 0;
 var totalProgress = 0;
