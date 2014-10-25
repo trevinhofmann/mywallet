@@ -1,29 +1,35 @@
-var transactions = [
-  {
-    "label": "Donation from stranger",
-    "recipient": "1ThisIsAFakeAddress",
-    "txid": "1234567890abcdef1234567890abcdef",
-    "amount": "+3.00",
-    "confirmations": "2"
-  },
-  {
-    "label": "Payment for Tab and Mountain Dew",
-    "recipient": "1DefinitelyNotARealAddress",
-    "txid": "abcdefabcdefabcdefabcdefabcdefabc",
-    "amount": "-13.37",
-    "confirmations": "[confirmed]"
-  },
-  {
-    "label": "Transfer from exchange",
-    "recipient": "1ThisIsADifferentFakeAddress",
-    "txid": "fedcba0987654321fedcba0987654321",
-    "amount": "+324.52",
-    "confirmations": "[confirmed]"
-  },
-];
+var transactions = [];
 
-function switchToAccount(){
+function loadTransactions(){
+  transactions = [
+    {
+      "label": "Donation from stranger",
+      "recipient": "1ThisIsAFakeAddress",
+      "txid": "1234567890abcdef1234567890abcdef",
+      "amount": "+3.00",
+      "confirmations": "2"
+    },
+    {
+      "label": "Payment for Tab and Mountain Dew",
+      "recipient": "1DefinitelyNotARealAddress",
+      "txid": "abcdefabcdefabcdefabcdefabcdefabc",
+      "amount": "-13.37",
+      "confirmations": "[confirmed]"
+    },
+    {
+      "label": "Transfer from exchange",
+      "recipient": "1ThisIsADifferentFakeAddress",
+      "txid": "fedcba0987654321fedcba0987654321",
+      "amount": "+324.52",
+      "confirmations": "[confirmed]"
+    }
+  ];
+}
 
+function switchToAccount(accountName){
+  $('#account-name').text(accountName);
+  loadTransactions();
+  displayTransactions();
 }
 
 function displayTransactions(){
