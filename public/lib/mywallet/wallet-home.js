@@ -50,6 +50,7 @@ function displayAccounts(){
     var row = $('<tr></tr>');
     row.append($('<td></td>').append(function(){
       return $('<button type="button" class="btn btn-primary">'+name+'</button>').click(function(){
+        switchToAccount(name);
         navigateTo('account-home');
       });
     }));

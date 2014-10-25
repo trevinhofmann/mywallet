@@ -1,2 +1,27 @@
-.container.very-padded#account-home
-  h1 Account home
+.container#account-home
+  h1.text-center
+    img(src='http://wallet.mychain.io/img/logo.png')
+  br
+  table.table.table-striped
+    thead
+      tr
+        th Label
+        th Recipient address
+        th Txid
+        th Amount (mBTC)
+        th Confirmations
+    tbody#account-home-transactions-tbody
+  p.text-right
+    button#account-home-send-payment-button.btn.btn-success(type='button') Send payment
+    br
+    br
+    button#account-home-get-paid-button.btn.btn-success(type='button') Get paid
+    br
+    br
+    button#account-home-list-addresses-button.btn.btn-primary(type='button') List addresses
+    br
+    br
+    button#account-home-return-button.btn.btn-warning(type='button') Return to wallet home
+    br
+    br
+    button#account-home-logout-button.btn.btn-danger(type='button') Log out
