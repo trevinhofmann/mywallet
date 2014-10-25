@@ -16,7 +16,20 @@ function handleIndexNewButtonClick(){
 }
 
 function handleIndexLoginButtonClick(){
-  alert('I should ask how you want to log in now.');
+  popupPrompt('How would you like to login?',
+    [
+      'Grid Sequence',
+      'Mnemonic Passphrase'
+    ],
+    [
+      function(){
+        alert('I should give you the login grid now.');
+      },
+      function(){
+        alert('I should ask you for your mnemonic passphrase now.');
+      }
+    ]
+  );
 }
 
 $('#index-new-button').on('click', handleIndexNewButtonClick);
