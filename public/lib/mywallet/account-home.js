@@ -51,15 +51,15 @@ function displayTransactions(){
 }
 
 function handleAccountSendPaymentButtonClick(){
-  alert('I should ask you for payment information now.');
+  navigateTo('send');
 }
 
 function handleAccountGetPaidButtonClick(){
-  alert('I should let you create a new address and payment request now.');
+  navigateTo('receive');
 }
 
 function handleAccountListAddressesButtonClick(){
-  alert('I should show you your addresses now.');
+  navigateTo('addresses');
 }
 
 function handleAccountReturnButtonClick(){
