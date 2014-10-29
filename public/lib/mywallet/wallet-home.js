@@ -7,7 +7,12 @@ function handleWalletNewAccountButtonClick(){
     ],
     [
       function(){
-        alert('I should create a super simple account now.');
+        askForNewAccountName(function(newAccountName){
+          askForNewAccountDescription(function(newAccountDescription){
+            createNewAccount(newAccountName, newAccountDescription);
+            displayAccounts();
+          });
+        });
       },
       function(){
         alert('I should create a simple two-factor account now.');
@@ -17,6 +22,23 @@ function handleWalletNewAccountButtonClick(){
       }
     ]
   );
+}
+
+function askForNewAccountName(callback){
+  popupTextPrompt('What would you like to call this account?', callback);
+}
+
+function askForNewAccountDescription(callback){
+  popupTextPrompt('Enter a short description for the account (optional):', callback);
+}
+
+function createNewAccount(name, description){
+  accounts.push({
+    "name": name,
+    "description": description,
+    "signatures": "1-of-1",
+    "balance": "0.00"
+  });
 }
 
 function handleWalletBackupButtonClick(){
