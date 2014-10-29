@@ -16,9 +16,9 @@ function popupPrompt(prompt, choices, callbacks){
 function popupTextPrompt(prompt, callback){
   $('#prompt-title').text(prompt);
   $('#prompt-options').empty();
-  $('#prompt-options').append('<input type="text" id="popupInput">');
+  $('#prompt-options').append('<input type="text" id="popupInput" class="form-control spaced"><br>');
   $('#prompt-options').append(function(){
-    return $('<br><button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>').click(function(){
+    return $('<button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>').click(function(){
       var value = $('#popupInput').val();
       closePrompt();
       callback(value);
