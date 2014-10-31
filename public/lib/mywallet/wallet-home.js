@@ -58,7 +58,7 @@ function displayAccounts(){
   for (var account in wallet){
     var name = wallet[account].name;
     var row = $('<tr></tr>');
-    var button = $('<button type="button" id="account-'+account+'-button" account="'+account+'" class="btn btn-primary">'+name+'</button>');
+    var button = $('<button type="button" id="account-'+account+'-button" account="'+account+'" class="btn btn-primary btn-block">'+name+'</button>');
     button.on('click', function(){
       var account = $(this).attr('account');
       switchToAccount(account);
