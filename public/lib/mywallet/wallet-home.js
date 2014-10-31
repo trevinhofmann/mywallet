@@ -9,7 +9,7 @@ function handleWalletNewAccountButtonClick(){
       function(){
         askForNewAccountName(function(newAccountName){
           askForNewAccountDescription(function(newAccountDescription){
-            createNewAccount(newAccountName, newAccountDescription);
+            createNewAccount(newAccountName, newAccountDescription, '1-of-1');
             displayAccounts();
           });
         });
