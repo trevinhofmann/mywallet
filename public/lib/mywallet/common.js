@@ -20,3 +20,8 @@ function navigateTo(target){
 }
 
 navigateTo('index');
+
+$(document).ready(function(){
+  $('#main').removeClass('hidden');
+  $('#loader').hide();
+});
