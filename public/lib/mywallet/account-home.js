@@ -18,7 +18,7 @@ function displayTransactions(){
     row.append('<td>'+tx.label+'</td>');
     row.append('<td><a href="http://mychain.io/address/'+tx.recipient+'">'+tx.recipient+'</a></td>');
     row.append('<td><a href="http://mychain.io/tx/'+tx.txid+'">'+tx.txid+'</a></td>');
-    row.append('<td>'+tx.amount+'</td>');
+    row.append('<td>'+tx.amount/100000+'</td>');
     row.append('<td>'+tx.confirmations+'</td>');
     $('#account-home-transactions-tbody').append(row);
   }

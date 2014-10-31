@@ -68,7 +68,7 @@ function displayAccounts(){
     row.append($('<td></td>').append(button));
     row.append('<td>'+wallet[account].description+'</td>');
     row.append('<td>'+wallet[account].signatures+'</td>');
-    row.append('<td>'+wallet[account].balance+'</td>');
+    row.append('<td>'+getAccountBalance(account)/100000+'</td>');
     $('#wallet-home-accounts-tbody').append(row);
   }
 }
