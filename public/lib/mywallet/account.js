@@ -20,24 +20,24 @@ function Account(name, description, publicParentKeys, signaturesRequired){
   // The number of signatures required to spend outputs to this account
   this.signaturesRequired = signaturesRequired;
   
-  // Adds a transaction to the account
-  this.addTransaction = function(transaction){
-    this.transactions.push(transaction);
-  }
+}
   
-  // Calculates and returns the balance as a sum of all transaction amounts
-  this.getBalance = function(){
-    var balance = 0;
-    for (var transaction in this.transactions){
-      balance += this.transactions[transaction].amount;
-    }
-    return balance;
+// Adds a transaction to the account
+Account.prototype.addTransaction = function(transaction){
+  this.transactions.push(transaction);
+}
+
+// Calculates and returns the balance as a sum of all transaction amounts
+Account.prototype.getBalance = function(){
+  var balance = 0;
+  for (var transaction in this.transactions){
+    balance += this.transactions[transaction].amount;
   }
-  
-  // Returns the 'M-of-N' format for M signatures required of N public keys in
-  // existence
-  this.getMOfN = function(){
-    return this.signaturesRequired+'-of-'+this.publicParentKeys.length;
-  }
-  
+  return balance;
+}
+
+// Returns the 'M-of-N' format for M signatures required of N public keys in
+// existence
+Account.prototype.getMOfN = function(){
+  return this.signaturesRequired+'-of-'+this.publicParentKeys.length;
 }

@@ -11,42 +11,43 @@ function Wallet(){
   // If set to an integer, the account number currently open
   this.currentAccountNumber;
   
-  // Add an account to the wallet
-  this.addAccount = function(account){
-    this.accounts.push(account);
+}
+
+// Add an account to the wallet
+Wallet.prototype.addAccount = function(account){
+  this.accounts.push(account);
+};
+
+// Add a transaction to an account
+Wallet.prototype.addTransaction = function(transaction, accountNumber){
+  if (accountNumber === undefined){
+    accountNumber = this.currentAccountNumber;
   }
-  
-  // Add a transaction to an account
-  this.addTransaction = function(transaction, accountNumber){
-    if (accountNumber === undefined){
-      accountNumber = this.currentAccount;
-    }
-    this.accounts[accountNumber].addTransaction(transaction);
+  this.accounts[accountNumber].addTransaction(transaction);
+}
+
+// Returns an account's balance
+Wallet.prototype.getAccountBalance = function(accountNumber){
+  if (accountNumber === undefined){
+    accountNumber = this.currentAccountNumber;
   }
-  
-  // Returns an account's balance
-  this.getAccountBalance = function(accountNumber){
-    if (accountNumber === undefined){
-      accountNumber = this.currentAccount;
-    }
-    return this.accounts[accountNumber].getBalance();
-  }
-  
-  // Sets the currenAccount to a new account number
-  this.switchToAccount = function(account){
-    currentAccount = account;
-  }
-  
-  // Returns the currently open account
-  this.getCurrentAccount = function(){
-    return this.accounts[this.currentAccountNumber];
-  }
-  
-  this.logOut = function(){
-    this.accounts = [];
-    this.seed = undefined;
-    this.currentAccountNumber = undefined;
-    userInterface.navigateTo('index');
-  }
-  
+  return this.accounts[accountNumber].getBalance();
+}
+
+// Sets the currenAccount to a new account number
+Wallet.prototype.switchToAccount = function(account){
+  this.currentAccountNumber = account;
+}
+
+// Returns the currently open account
+Wallet.prototype.getCurrentAccount = function(){
+  return this.accounts[this.currentAccountNumber];
+}
+
+// Clears the wallet's values and navigates to the index page
+Wallet.prototype.logOut = function(){
+  this.accounts = [];
+  this.seed = undefined;
+  this.currentAccountNumber = undefined;
+  userInterface.navigateTo('index');
 }

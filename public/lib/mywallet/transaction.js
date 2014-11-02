@@ -15,10 +15,10 @@ function Transaction(recipient, txid, amount, confirmationHeight){
   // The heigh of the block containing this transaction (-1 if not yet in a
   // block)
   this.confirmationHeight = confirmationHeight;
-  
-  this.getConfirmations = function(){
-    // TODO: Return (blockChainHeight - this.confirmationHeight) instead
-    return 6;
-  }
 
+}
+  
+Transaction.prototype.getConfirmations = function(){
+  // TODO: Return (blockChainHeight - this.confirmationHeight) instead
+  return 6;
 }
