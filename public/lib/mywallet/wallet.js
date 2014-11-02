@@ -1,42 +1,52 @@
-var wallet = [];
+// This class is a hierarchical deterministic wallet structure, able to contain
+// multiple accounts
+function Wallet(){
 
-var seed;
-
-function loadDemoWallet(){
-  createNewAccount('Daily Spending', 'This is where I keep my day-to-day spendable funds.', '1-of-1');
-  createNewAccount('Vacation Fund', 'I am going to Disney World!', '3-of-4');
-  createNewAccount('Cold Storage', 'Saving for retirement.', '4-of-5');
-  addNewTransaction(0, 'Donation from a stranger', '1ThisIsAFakeAddress', '1234567890abcdef1234567890abcdef', '+300000', '2');
-  addNewTransaction(0, 'Payment for Tab and Mountain Dew', '1DefinitelyNotARealAddress', 'abcdefabcdefabcdefabcdefabcdefabc', '-1337000', '[confirmed]');
-  addNewTransaction(0, 'Transfer from exchange', '1ThisIsADifferentFakeAddress', 'fedcba0987654321fedcba0987654321', '+32452000', '[confirmed]');
-}
-
-function createNewAccount(name, description, signatures){
-  wallet.push({
-    "name": name,
-    "description": description,
-    "signatures": signatures,
-    "transactions": []
-  });
-}
-
-function addNewTransaction(account, label, recipient, txid, amount, confirmations){
-  wallet[account].transactions.push({
-    "label": label,
-    "recipient": recipient,
-    "txid": txid,
-    "amount": amount,
-    "confirmations": confirmations
-  });
-}
-
-function getAccountBalance(account){
-  var balance = 0;
-  var txs = wallet[account].transactions;
-  for (var tx in txs){
-    balance += parseInt(txs[tx].amount);
+  // An array of BIP 32 accounts
+  this.accounts = [];
+  
+  // BIP 32 seed
+  this.seed;
+  
+  // If set to an integer, the account number currently open
+  this.currentAccountNumber;
+  
+  // Add an account to the wallet
+  this.addAccount = function(account){
+    this.accounts.push(account);
   }
-  return balance;
+  
+  // Add a transaction to an account
+  this.addTransaction = function(transaction, accountNumber){
+    if (accountNumber === undefined){
+      accountNumber = this.currentAccount;
+    }
+    this.accounts[accountNumber].addTransaction(transaction);
+  }
+  
+  // Returns an account's balance
+  this.getAccountBalance = function(accountNumber){
+    if (accountNumber === undefined){
+      accountNumber = this.currentAccount;
+    }
+    return this.accounts[accountNumber].getBalance();
+  }
+  
+  // Sets the currenAccount to a new account number
+  this.switchToAccount = function(account){
+    currentAccount = account;
+  }
+  
+  // Returns the currently open account
+  this.getCurrentAccount = function(){
+    return this.accounts[this.currentAccountNumber];
+  }
+  
+  this.logOut = function(){
+    this.accounts = [];
+    this.seed = undefined;
+    this.currentAccountNumber = undefined;
+    userInterface.navigateTo('index');
+  }
+  
 }
-
-loadDemoWallet();

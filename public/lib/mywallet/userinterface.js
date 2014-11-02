@@ -1,0 +1,287 @@
+// This class handles the HTML DOM elements and events, which includes tasks
+// such as updating table displays and handling button clicks
+function UserInterface(){
+
+  // An array of pages displayed in the application
+  this.displays = [
+    'index',
+    'login-grid',
+    'wallet-home',
+    'account-home',
+    'send',
+    'receive',
+    'settings',
+    'addresses',
+    'transactions'
+  ];
+  
+  // Hides the loading screen, displays the main application, and attaches event
+  // handlers
+  this.open = function(){
+    $('#loader').hide();
+    $('#prompt').hide();
+    $('#main').removeClass('hidden');
+    this.attachEventHandlers();
+    this.navigateTo('index');
+  };
+  
+  // Switches the display to a given target
+  this.navigateTo = function(target){
+    for (var display in this.displays){
+      $('#'+this.displays[display]).hide();
+    }
+    $('#'+target).show();
+  };
+  
+  // Pops up a prompt asking the user to make a selection, then calls the
+  // corresponding callback function
+  this.popupPrompt = function(prompt, choices, callbacks){
+    $('#prompt-title').text(prompt);
+    $('#prompt-options').empty();
+    for (var choice in choices){
+      $('#prompt-options').append(function(){
+        var callback = callbacks[choice];
+        return $('<br><button type="button" class="btn btn-primary btn-lg btn-block">'+choices[choice]+'</button>').click(function(){
+          $('#prompt').hide();
+          callback();
+        });
+      });
+    }
+    $('#prompt').show();
+  };
+  
+  // Pops up a prompt asking the user to input a text value, then calls the
+  // callback function with the value entered when the user clicks a 'Submit'
+  // button
+  this.popupTextPrompt = function(prompt, callback){
+    $('#prompt-title').text(prompt);
+    $('#prompt-options').empty();
+    $('#prompt-options').append('<input type="text" id="popupInput" class="form-control spaced"><br>');
+    $('#prompt-options').append(function(){
+      return $('<button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>').click(function(){
+        var value = $('#popupInput').val();
+        $('#prompt').hide();
+        callback(value);
+      });
+    });
+    $('#prompt').show();
+  };
+  
+  // Attaches event handlers to elements, particularly event handlers for button
+  // clicks
+  this.attachEventHandlers = function(){
+    $('#wallet-home-new-account-button').on('click',
+      this.handleWalletNewAccountButtonClick
+    );
+    $('#wallet-home-backup-wallet-button').on('click',
+      this.handleWalletBackupButtonClick
+    );
+    $('#wallet-home-logout-button').on('click',
+      this.handleWalletLogoutButtonClick
+    );
+    $('#account-home-send-payment-button').on('click',
+      this.handleAccountSendPaymentButtonClick
+    );
+    $('#account-home-get-paid-button').on('click',
+      this.handleAccountGetPaidButtonClick
+    );
+    $('#account-home-list-addresses-button').on('click',
+      this.handleAccountListAddressesButtonClick
+    );
+    $('#account-home-return-button').on('click',
+      this.handleAccountReturnButtonClick
+    );
+    $('#account-home-logout-button').on('click',
+      this.handleAccountLogoutButtonClick
+    );
+    $('#index-new-button').on('click',
+      this.handleIndexNewButtonClick
+    );
+    $('#index-login-button').on('click',
+      this.handleIndexLoginButtonClick
+    );
+  };
+  
+  // Update the account display to show the current account's name and
+  // transactions
+  this.displayAccount = function(){
+    $('#account-name').text(wallet.getCurrentAccount().name);
+    displayTransactions();
+  };
+  
+  // Update and display the list of accounts on the wallet home page
+  this.displayAccounts = function(){
+    $('#wallet-home-accounts-tbody').empty();
+    for (var account in wallet.accounts){
+      var name = wallet.accounts[account].name;
+      var row = $('<tr></tr>');
+      var button = $('<button type="button" id="account-'+account+'-button" account="'+account+'" class="btn btn-primary btn-block">'+name+'</button>');
+      button.on('click', function(){
+        var account = $(this).attr('account');
+        wallet.switchToAccount(account);
+        userInterface.displayAccount();
+        userInterface.navigateTo('account-home');
+      });
+      row.append($('<td></td>').append(button));
+      row.append('<td>'+wallet.accounts[account].description+'</td>');
+      row.append('<td>'+wallet.accounts[account].signatures+'</td>');
+      row.append('<td>'+wallet.getAccountBalance(account)/100000+'</td>');
+      $('#wallet-home-accounts-tbody').append(row);
+    }
+  };
+  
+  // Update the transactions display for the currently open account
+  this.displayTransactions = function(){
+    $('#account-home-transactions-tbody').empty();
+    var transactions = wallet.getCurrentAccount().transactions;
+    for (var transaction in transactions){
+      var tx = transactions[transaction];
+      var row = $('<tr></tr>');
+      row.append('<td>'+tx.label+'</td>');
+      row.append('<td><a href="http://mychain.io/address/'+tx.recipient+'">'+tx.recipient+'</a></td>');
+      row.append('<td><a href="http://mychain.io/tx/'+tx.txid+'">'+tx.txid+'</a></td>');
+      row.append('<td>'+tx.amount/100000+'</td>');
+      row.append('<td>'+tx.confirmations+'</td>');
+      $('#account-home-transactions-tbody').append(row);
+    }
+  };
+  
+  // Ask the user for more information about the account, then create it
+  this.createSimpleAccount = function(){
+    userInterface.askForNewAccountName(function(newAccountName){
+      userInterface.askForNewAccountDescription(function(newAccountDescription){
+        wallet.addAccount(new Account(newAccountName, newAccountDescription, ['blah'], 1));
+        userInterface.displayAccounts();
+      });
+    });
+  };
+  
+  // Ask the user for a new account name
+  this.askForNewAccountName = function(callback){
+    userInterface.popupTextPrompt(
+      'What would you like to call this wallet?',
+      callback
+    );
+  };
+
+  // Ask the user for a new account description
+  this.askForNewAccountDescription = function(callback){
+    userInterface.popupTextPrompt(
+      'Enter a short description for the account (optional):',
+      callback
+    );
+  };
+  
+  // Ask the user what type of account they would like to make, then begin
+  // making that account
+  this.handleWalletNewAccountButtonClick = function(){
+    userInterface.popupPrompt('What type of account would you like to make?',
+      [
+        'Super Simple (1 key)',
+        'Simple Two-Factor (2 keys, we hold one)',
+        'Custom Multisignature (completely customizable!)'
+      ],
+      [
+        userInterface.createSimpleAccount,
+        function(){
+          alert('I should create a simple two-factor account now.');
+        },
+        function(){
+          alert('I should ask for the multisignature details now.');
+        }
+      ]
+    );
+  };
+
+  // Prompt the user for a backup method, then provide the backup
+  this.handleWalletBackupButtonClick = function(){
+    userInterface.popupPrompt('Great idea! How would you like to back up your encrypted wallet?',
+      [
+        'Display it now',
+        'Email it to me'
+      ],
+      [
+        function(){
+          alert('I should display your mnemonic encrypted wallet now.');
+        },
+        function(){
+          alert('I should ask you for your email now.');
+        }
+      ]
+    );
+  };
+
+  // Log out of the wallet
+  this.handleWalletLogoutButtonClick = function(){
+    wallet.logOut();
+  };
+  
+  // Navigate to the 'send' page
+  this.handleAccountSendPaymentButtonClick = function(){
+    userInterface.navigateTo('send');
+  };
+
+  // Navigate to the 'receive' page
+  this.handleAccountGetPaidButtonClick = function(){
+    userInterface.navigateTo('receive');
+  };
+
+  // Navigate to the 'addresses' page
+  this.handleAccountListAddressesButtonClick = function(){
+    userInterface.navigateTo('addresses');
+  };
+
+  // Navigate back to the wallet home
+  this.handleAccountReturnButtonClick = function(){
+    userInterface.navigateTo('wallet-home');
+  };
+
+  // Log out of the wallet
+  this.handleAccountLogoutButtonClick = function(){
+    wallet.logOut();
+  };  
+  
+  // Create a new wallet after offering a quick tutorial
+  this.handleIndexNewButtonClick = function(){
+    userInterface.popupPrompt('Would you like a quick tutorial of MyWallet?',
+      [
+        'Yes, please!',
+        'No thanks!'
+      ],
+      [
+        function(){
+          alert('I should show you a tutorial now, but I am not ready for that yet. I will show you a demo wallet instead.');
+          userInterface.navigateTo('wallet-home');
+          userInterface.displayAccounts();
+        },
+        function(){
+          userInterface.navigateTo('wallet-home');
+          userInterface.displayAccounts();
+        }
+      ]
+    );
+  };
+  
+  // Prompt the user for a login method, then allow them to log in
+  this.handleIndexLoginButtonClick = function(){
+    userInterface.popupPrompt('How would you like to login?',
+      [
+        'Grid Sequence',
+        'Mnemonic Passphrase'
+      ],
+      [
+        function(){
+          alert('I should show you the login grid now, but I am not ready for that yet. I will show you a demo wallet instead.');
+          userInterface.navigateTo('wallet-home');
+          userInterface.displayAccounts();
+        },
+        function(){
+          alert('I should ask you for your mnemonic passphrase now, but I am not ready for that yet. I will show you a demo wallet instead.');
+          userInterface.navigateTo('wallet-home');
+          userInterface.displayAccounts();
+        }
+      ]
+    );
+  };
+
+}
