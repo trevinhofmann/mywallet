@@ -1,26 +1,26 @@
 {
-  "name" : "mywallet",
-  "version" : "0.0.1",
-  "description" : "A Bitcoin wallet",
-  "homepage" : "https://github.com/thofmann/mywallet",
-  "repository" : {
-	"type" : "git",
-	"url" : "https://github.com/thofmann/mywallet.git"
+  "name": "mywallet",
+  "version": "0.0.1",
+  "description": "A Bitcoin wallet",
+  "homepage": "https://github.com/thofmann/mywallet",
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/thofmann/mywallet.git"
   },
-  "bugs" : {
-    "url" : "https://github.com/thofmann/mywallet/issues",
-    "email" : "trevinhofmann@gmail.com"
+  "bugs": {
+    "url": "https://github.com/thofmann/mywallet/issues",
+    "email": "trevinhofmann@gmail.com"
   },
-  "author" : {
-    "name" : "Trevin Hofmann",
-    "email" : "trevinhofmann@gmail.com"
+  "author": {
+    "name": "Trevin Hofmann",
+    "email": "trevinhofmann@gmail.com"
   },
-  "dependencies" : {
-    "express" : "*",
-    "jade" : "*",
-    "stylus" : "*",
-    "bitcore" : "*",
-    "mysql" : "*"
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "stylus": "*",
+    "bitcore": "*",
+    "mysql": "*"
   },
-  "main" : "app.js"
+  "main": "app.js"
 }
