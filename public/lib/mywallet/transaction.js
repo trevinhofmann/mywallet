@@ -17,7 +17,8 @@ function Transaction(recipient, txid, amount, confirmationHeight){
   this.confirmationHeight = confirmationHeight;
 
 }
-  
+
+// Returns the depth of this transaction in the block chain
 Transaction.prototype.getConfirmations = function(){
   // TODO: Return (blockChainHeight - this.confirmationHeight) instead
   return 6;
