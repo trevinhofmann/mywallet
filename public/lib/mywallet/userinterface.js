@@ -148,8 +148,19 @@ UserInterface.prototype.displayTransactions = function(){
   }
 };
 
-// Ask the user for more information about the account, then create it
+// Ask the user for more information about the simple account, then create it
 UserInterface.prototype.createSimpleAccount = function(){
+  userInterface.askForNewAccountName(function(newAccountName){
+    userInterface.askForNewAccountDescription(function(newAccountDescription){
+      wallet.addAccount(new Account(newAccountName, newAccountDescription, ['blah', 'bleh'], 2));
+      userInterface.displayAccounts();
+    });
+  });
+};
+
+// Ask the user for more information about the simple two-factor account, then
+//create it
+UserInterface.prototype.createSimpleTwoFactorAccount = function(){
   userInterface.askForNewAccountName(function(newAccountName){
     userInterface.askForNewAccountDescription(function(newAccountDescription){
       wallet.addAccount(new Account(newAccountName, newAccountDescription, ['blah'], 1));
@@ -185,9 +196,7 @@ UserInterface.prototype.handleWalletNewAccountButtonClick = function(){
     ],
     [
       userInterface.createSimpleAccount,
-      function(){
-        alert('I should create a simple two-factor account now.');
-      },
+      userInterface.createSimpleTwoFactorAccount,
       function(){
         alert('I should ask for the multisignature details now.');
       }
