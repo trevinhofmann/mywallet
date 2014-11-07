@@ -78,6 +78,9 @@ UserInterface.prototype.attachEventHandlers = function(){
   $('#wallet-home-backup-wallet-button').on('click',
     this.handleWalletBackupButtonClick
   );
+  $('#wallet-home-settings-button').on('click',
+    this.handleWalletSettingsButtonClick
+  );
   $('#wallet-home-logout-button').on('click',
     this.handleWalletLogoutButtonClick
   );
@@ -220,6 +223,11 @@ UserInterface.prototype.handleWalletBackupButtonClick = function(){
       }
     ]
   );
+};
+
+// Navigate to the 'settings' page
+UserInterface.prototype.handleWalletSettingsButtonClick = function(){
+  userInterface.navigateTo('settings');
 };
 
 // Log out of the wallet
