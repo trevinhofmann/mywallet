@@ -1,2 +1,24 @@
-.container.very-padded#settings
-  h1 Settings
+.container#settings
+  h1.text-center
+    img(src='http://wallet.mychain.io/img/logo.png')
+  br
+  h2.text-center.strong Settings
+  form(role='form')
+    label.spaced(for='settings-denomination') Denomination
+    select#settings-denomination.form-control
+      option(value='BTC') BTC
+      option(value='mBTC') mBTC (1 BTC = 1,000 mBTC)
+      option(value='μBTC') μBTC (1 BTC = 1,000,000 μBTC)
+      option(value='bits') bits (1 BTC = 1,000,000 bits)
+      option(value='satoshis') satoshis (1 BTC = 100,000,000 satoshis)
+    label.spaced(for='settings-precision') Precision
+    select#settings-precision.form-control
+      option(value='0') 0 (42)
+      option(value='2') 2 (42.00)
+      option(value='4') 4 (42.0000)
+      option(value='6') 6 (42.000000)
+      option(value='8') 8 (42.00000000)
+  p.text-center.spaced
+    button#account-home-send-payment-button.btn.btn-success(type='button') Save changes
+    |  
+    button#account-home-return-button.btn.btn-danger(type='button') Cancel
