@@ -108,6 +108,12 @@ UserInterface.prototype.attachEventHandlers = function(){
   $('#index-login-button').on('click',
     this.handleIndexLoginButtonClick
   );
+  $('#settings-save-button').on('click',
+    this.handleSettingsSaveButtonClick
+  );
+  $('#settings-cancel-button').on('click',
+    this.handleSettingsCancelButtonClick
+  );
 };
 
 // Update the account display to show the current account's name and
@@ -136,25 +142,30 @@ UserInterface.prototype.displayAccounts = function(){
     row.append('<td>'+this.formatCurrency(wallet.getAccountBalance(account))+'</td>');
     $('#wallet-home-accounts-tbody').append(row);
   }
+  $('#wallet-home-balance-head').text('Balance ('+this.currencyDenomination+')');
 };
 
 // Format an amount in satoshis to the denomination and precision specified in
 // the settings
-UserInterface.prototype.formatCurrency(amount){
+UserInterface.prototype.formatCurrency = function(amount){
   var d;
   switch (this.currencyDenomination){
     case 'BTC':
       d = 100000000;
+      break;
     case 'mBTC':
       d = 100000;
+      break;
     case 'μBTC':
     case 'bits':
       d = 100;
+      break;
     case 'satoshis':
       d = 1;
+      break;
   }
   var p = Math.pow(10, this.currencyPrecision);
-  return Math.floor(amount * p / d) / p;
+  return (Math.floor(amount * p / d) / p).toFixed(this.currencyPrecision);
 }
 
 // Update the transactions display for the currently open account
@@ -171,6 +182,7 @@ UserInterface.prototype.displayTransactions = function(){
     row.append('<td>'+tx.confirmations+'</td>');
     $('#account-home-transactions-tbody').append(row);
   }
+  $('#account-home-amount-head').text('Amount ('+this.currencyDenomination+')');
 };
 
 // Ask the user for more information about the simple account, then create it
@@ -324,3 +336,11 @@ UserInterface.prototype.handleIndexLoginButtonClick = function(){
     ]
   );
 };
+
+// Save the settings and navigate back to account-home
+UserInterface.prototype.handleSettingsSaveButtonClick = function(){
+  userInterface.currencyDenomination = $('#settings-denomination').val();
+  userInterface.currencyPrecision = $('#settings-precision').val();
+  userInterface.displayAccounts();
+  userInterface.navigateTo('wallet-home');
+}
