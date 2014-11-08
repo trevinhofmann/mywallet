@@ -14,6 +14,9 @@ function UserInterface(){
     'addresses',
     'transactions'
   ];
+  
+  this.currencyDenomination = 'mBTC';
+  this.currencyPrecision = 2;
 
 }
   
@@ -130,10 +133,29 @@ UserInterface.prototype.displayAccounts = function(){
     row.append($('<td></td>').append(button));
     row.append('<td>'+wallet.accounts[account].description+'</td>');
     row.append('<td>'+wallet.accounts[account].signatures+'</td>');
-    row.append('<td>'+wallet.getAccountBalance(account)/100000+'</td>');
+    row.append('<td>'+this.formatCurrency(wallet.getAccountBalance(account))+'</td>');
     $('#wallet-home-accounts-tbody').append(row);
   }
 };
+
+// Format an amount in satoshis to the denomination and precision specified in
+// the settings
+UserInterface.prototype.formatCurrency(amount){
+  var d;
+  switch (this.currencyDenomination){
+    case 'BTC':
+      d = 100000000;
+    case 'mBTC':
+      d = 100000;
+    case 'μBTC':
+    case 'bits':
+      d = 100;
+    case 'satoshis':
+      d = 1;
+  }
+  var p = Math.pow(10, this.currencyPrecision);
+  return Math.floor(amount * p / d) / p;
+}
 
 // Update the transactions display for the currently open account
 UserInterface.prototype.displayTransactions = function(){
@@ -145,7 +167,7 @@ UserInterface.prototype.displayTransactions = function(){
     row.append('<td>'+tx.label+'</td>');
     row.append('<td><a href="http://mychain.io/address/'+tx.recipient+'">'+tx.recipient+'</a></td>');
     row.append('<td><a href="http://mychain.io/tx/'+tx.txid+'">'+tx.txid+'</a></td>');
-    row.append('<td>'+tx.amount/100000+'</td>');
+    row.append('<td>'+this.formatCurrency(tx.amount)+'</td>');
     row.append('<td>'+tx.confirmations+'</td>');
     $('#account-home-transactions-tbody').append(row);
   }
